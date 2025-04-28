@@ -15,7 +15,7 @@
     
     <div class="container">
         <h2>Formulário para Guia de Remessa</h2>
-    <form action="conexao.php" method="POST" enctype="multipart/form-data">
+    <form action="index.php" method="POST" enctype="multipart/form-data">
     <div class="row g-3">
             <div class="col-6">
                 <label for="local_para" class="form-label">Local</label>
@@ -48,7 +48,33 @@
             $data_emissao = date("Y-m-d");
         }
     ?>
-    
+
+        <div class="container">
+            <hr>
+            <h3>Remessas Antigas</h3>
+
+            <?php
+            
+            $mysqli = new mysqli(HOST, USUARIO, SENHA, BANCO);
+
+            
+            $resultado = $mysqli->query("SELECT codigo, local_para, data_emissao FROM remessa ORDER BY codigo DESC");
+
+            if ($resultado->num_rows > 0) {
+                echo "<ul>";
+                while ($remessa = $resultado->fetch_assoc()) {
+                    echo "<li>";
+                    echo "<a href='gerar_pdf.php?id=" . $remessa['codigo'] . "' target='_blank'>";
+                    echo "Guia nº " . $remessa['codigo'] . " - " . htmlspecialchars($remessa['local_para']) . " (" . htmlspecialchars($remessa['data_emissao']) . ")";  
+                    echo "</a>";
+                    echo "</li>";
+                }
+                echo "</ul>";
+            } else {
+                echo "<div class='alert alert-warning' role='alert'> Nenhuma remessa encontrada! </div>";
+            }
+?>
+        </div>
 </body>
 </html>
 

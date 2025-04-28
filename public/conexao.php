@@ -30,22 +30,7 @@
             )");
 
         $codigo_remessa = $mysqli->insert_id;
-        //criação de pdf insana
-        $pdf = new FPDF();
-        $pdf->AddPage();
-        $pdf->SetFont('Arial', '', 12);
         
-        $pdf->Cell(0, 10, utf8_decode("Guia de Remessa Nº $codigo_remessa"), 0, 1, 'C');
-        $pdf->Ln(5);
-
-        $pdf->MultiCell(0, 10, utf8_decode("Documento: $documento"), 0, 1);
-        $pdf->Cell(0, 10, utf8_decode("Para: $local_para"), 0, 1);
-        $pdf->Cell(0, 10, utf8_decode("Destinatário: $destinatario"), 0, 1);
-        $pdf->Cell(0, 10, utf8_decode("Emissor: $emissor"), 0, 1);
-        $pdf->Cell(0, 10, utf8_decode("Data de Emissão: $data_emissao"), 0, 1);
-
-        $pdf->Output('I', 'guia_de_remessa.pdf');
-        exit;
     }
 
     
